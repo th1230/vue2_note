@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>幾個注意點</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <!--  
+          幾個注意點:      
+              1. 關於組件名:
+                  一個單詞組成:
+                  第一種寫法(首字母小寫): ball
+                  第二種寫法(首字母大寫): Ball
+                  
+                  多個單詞組成:
+                  第一種寫法(kebab-case命名): my-ball
+                  第二種寫法(CamelCase命名)：MyBall (需要Vue腳手架支持)
+                  備註：
+                      (1).組件名盡可能迴避HTML中已有的元素名稱，例如：h2、H2都不行。
+                      (2).可以使用name配置項指定組件在開發者工具中呈現的名字。
+              2. 關於組件標籤:
+                      第一種寫法: <ball></ball>
+                      第二種寫法: <ball/>
+                      備註: 不使用vue-cli時，<ball/>會導致後續組件無法渲染。
+              3. 一個簡寫方式: const ball = Vue.extend(options) 可簡寫為  const ball = options
+
+     -->
+    <div id="root">
+      <ball></ball>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      // 第一步創建組件
+      const ball = Vue.extend({
+        template: `
+        <div>
+          <h1>球的種類 - {{ballType}}</h1>
+          <h1>球的顏色 - {{color}}</h1>
+        </div>`,
+        data() {
+          return {
+            ballType: "basketball",
+            color: "red",
+          };
+        },
+      });
+
+      new Vue({
+        el: "#root",
+        data: {},
+        // 第二步註冊組件
+        components: {
+          ball,
+        },
+      });
+    </script>
+  </body>
+</html>

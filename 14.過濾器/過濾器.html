@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>過濾器</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.2/dayjs.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <!-- 
+          過濾器:
+              定義: 隊要顯示的數據進行特定格式化後再顯示(適用於一些簡單的邏輯處理)
+              語法: 
+                   1. 註冊過濾器: Vue.filter(name,callback) 或 new Vue({filters:{}})
+                   2. 使用過濾器: {{ xxx | 過濾器名 }} 或 v-bind:屬性="xxx | 過濾器名"
+              備註: 
+                   1. 過濾器也可以接受額外參數，多個過濾器也可以串聯
+                   2. 並沒有改變原本的數據，是產生了對應的數據
+     -->
+
+    <div id="root">
+      <h1>顯示格式化後的時間</h1>
+      <!-- 計算屬性實現 -->
+      <h1>現在是:{{ formatTime }}</h1>
+      <!-- 函數實現 -->
+      <h1>現在是:{{ getTime(time) }}</h1>
+      <!-- 過濾器實現 -->
+      <h1>現在是:{{ time | timeFormater }}</h1>
+      <!-- 過濾器實現(傳參) -->
+      <h1>現在是:{{ time | timeFormater("YYYY-MM-DD") | slice(0,6)}}</h1>
+      <!-- 過濾器過濾屬性 -->
+      <h1 :msg="msg | slice(0,5)">hello</h1>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      //全局過濾器
+      Vue.filter("slice", function (value, a, b) {
+        return value.slice(a, b);
+      });
+
+      new Vue({
+        el: "#root",
+        data: {
+          time: Date.now(),
+          msg: "aaabbbccc",
+        },
+        methods: {
+          getTime(time) {
+            return dayjs(time).format("YYYY-MM-DD");
+          },
+        },
+        computed: {
+          formatTime() {
+            return dayjs(this.time).format("YYYY-MM-DD");
+          },
+        },
+        //局部過濾器
+        filters: {
+          timeFormater(value, str = "YYYY-MM-DD hh:mm:ss") {
+            return dayjs(value).format(str);
+          },
+          // slice(value, a, b) {
+          //   return value.slice(a, b);
+          // },
+        },
+      });
+    </script>
+  </body>
+</html>

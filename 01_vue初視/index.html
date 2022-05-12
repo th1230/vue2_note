@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vue初視</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body>
+    <!--     
+        Vue初視 : 
+            1. 想讓Vue工作就必須創建一個Vue實例，且要傳入一個配置對象。
+            2. root容器裡的代碼依舊符合html規範，只不過混入了一些Vue的語法。
+            3. root容器裡的代碼被稱為模板。
+            4. Vue的實例與容器是一一對應的，無法多對伊或一對多。
+            5. 真實開法Vue只有一個實例，並且會配合組件使用。
+            6. {{xxx}}中的xxx要寫入一個js表達式(具有返回值的式子)，且xxx可以自動讀取到data中的所有屬性。
+            7. 一旦data中的數據發生變化，那麼模塊中使用到該數據的地方也會自動更新(重新渲染模板)。
+
+            注意區分: js表達是 與 js代碼
+
+            1. 表達式:一個表達式會產生一個值，可以放在任何需要值的地方。
+                (1). a
+                (2). a+b
+                (3). demo(1)
+                (4). x===y ? 'a' : 'b'
+            
+            1. js代碼(語句)
+                (1). if()
+                (2). for()
+
+
+
+            Vue簡單版解析流程:
+            前置條件:
+            1. 擁有一個模板區塊 #root
+            2. 創建一個Vue實例並設定初始值
+
+            開始解析:
+            1. Vue開始運作，讀取設定值知道#root為模板
+            2. 將 div#root取出並開始解析
+            3. 遇到Vue語法將其解析(找尋Vue中是否有設定相應的屬性、方法)並轉換成html文字
+            4. 刪除Vue相關語法
+            5. 將解析過後的全新容器替換掉舊容器
+
+            Vue
+
+            el屬性使用:
+
+            1. 此屬性指定Vue實例為哪個容器服務，值通常為css選擇器字符串。範例: el: "#root"
+            2. 除了字串也可以直接傳遞元素本身。範例: el:document.getElementById("root") 
+
+            data屬性使用:
+
+            1. data用於儲存數據，數據供el指定的元素使用，值暫且寫成一個對象。 
+    -->
+
+    <div id="root">
+      <h1>Hello World --- {{name.toUpperCase()}} . {{address}}!!!</h1>
+    </div>
+
+    <script>
+      // Vue 2 關閉console提示
+      Vue.config.productionTip = false;
+
+      //創建Vue實例
+      new Vue({
+        el: "#root",
+        data: {
+          name: "thomas",
+          address: "taipei",
+        },
+      });
+    </script>
+  </body>
+</html>

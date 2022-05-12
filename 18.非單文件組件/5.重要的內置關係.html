@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>重要的內置關係</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <!-- 
+          1. 一個重要的內置關係：VueComponent.prototype. proto === Vue.prototype
+          2. 為什麼要有這個關係：讓組件實例對象（vc）可以訪問到Vue原型上的屬性、方法。
+     -->
+    <div id="root">
+      <school></school>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      const school = Vue.extend({
+        template: `
+        <div>
+          <h1>學校名稱 - {{schoolName}}</h1>
+          <h1>學校地址 - {{schoolAddress}}</h1>
+          <hr/>
+          <student></student>
+        </div>`,
+        data() {
+          return {
+            schoolName: "淡江大學",
+            schoolAddress: "台北",
+          };
+        },
+      });
+
+      const vm = new Vue({
+        el: "#root",
+        data: {},
+        components: { school },
+      });
+
+      function a() {
+        console.log(123);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>收集表單數據</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <!-- 
+          收集表單數據:
+              若:<input type="text"> 則v-model收集的是value值，用戶輸入的就是value值
+              若:<input type="radio"> 則v-model收集的是value值，且要給標籤配置value值
+              若:<input type="checkbox">
+                  1. 沒有配置input value屬性，那麼收集的就是checked(勾選 or 未勾選 是boolean值)
+                  2. 配置input value的屬性: 
+                      (1). v-model的值如果是非數組，那麼收集的就是checked(勾選 or 未勾選 是boolean值)
+                      (2). v-model的值如果是數組，那麼收集的就是value組成的數組
+              備註: v-model的三個修飾符
+                  lazy: 失去焦點在收集數據
+                  number: 將字串轉換為數字
+                  trim :首尾空格過濾
+     -->
+
+    <div id="root">
+      <form @submit.prevent="demo">
+        帳號: <input type="text" v-model="userInfo.account" /><br /><br />
+
+        密碼: <input type="password" v-model="userInfo.password" /><br /><br />
+
+        年齡: <input type="text" v-model.number="userInfo.age" /><br /><br />
+
+        性別: 男:<input
+          name="sex"
+          type="radio"
+          value="male"
+          v-model="userInfo.sex"
+        />
+        女:<input
+          name="sex"
+          type="radio"
+          value="female"
+          v-model="userInfo.sex"
+        />
+        <br /><br />
+
+        愛好: 學習:<input
+          type="checkbox"
+          value="learn"
+          v-model="userInfo.hobby"
+        />
+        打遊戲:<input
+          type="checkbox"
+          value="playgame"
+          v-model="userInfo.hobby"
+        />
+        吃飯:<input type="checkbox" value="eat" v-model="userInfo.hobby" />
+        <br /><br />
+
+        地區:
+        <select name="city" v-model="userInfo.city">
+          <option value="台北">台北</option>
+          <option value="桃園">桃園</option>
+          <option value="台中">台中</option>
+          <option value="嘉義">嘉義</option>
+          <option value="高雄">高雄</option>
+        </select>
+        <br /><br />
+
+        其他訊息:
+        <textarea name="message" v-model="userInfo.other"></textarea>
+        <br /><br />
+
+        <input type="checkbox" v-model="userInfo.agree" />閱讀並接受協議
+        <br /><br />
+
+        <button>提交</button>
+      </form>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      new Vue({
+        el: "#root",
+        data: {
+          userInfo: {
+            account: "",
+            password: "",
+            age: 0,
+            sex: "female",
+            hobby: [],
+            city: "台北",
+            other: "",
+            agree: "",
+          },
+        },
+        methods: {
+          demo() {
+            console.log(this.userInfo);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

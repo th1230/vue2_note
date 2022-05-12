@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v-once_指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body style="font-size: 1.2rem">
+    <!-- 
+          v-once指令:
+                1. v-once所在的節點在初次渲染完成後，就視為靜態內容。
+                2. 以後數據的變化不會引起v-once所在結構的更新，可用於性能優化。
+     -->
+    <div id="root">
+      <h1 v-once>初始化的n是{{n}}</h1>
+      <h1>當前的n是{{n}}</h1>
+      <button @click="n++">點我n+1</button>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      new Vue({
+        el: "#root",
+        data: {
+          n: 0,
+        },
+      });
+    </script>
+  </body>
+</html>

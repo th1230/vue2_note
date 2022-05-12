@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>條件渲染</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body>
+    <!-- 
+          條件渲染:
+                1.v-if
+                    寫法: 
+                        (1). v-if="表達式"
+                        (2). v-else-if="表達式"
+                        (3). v-else="表達式"
+                    適用: 切換頻率較低的場景
+                    特點: 不展式DOM元素直接被移除
+                    注意: v-if可以和v-else-if與v-else一起使用，但結構不能被打斷
+                2. v-show
+                    寫法: v-show="表達式"
+                    適用: 切換頻率較高的場景
+                    特點: 不展式DOM元素未被移除，只是透過樣式隱藏掉
+                3. 備註: 使用v-if時可能會無法獲取元素，v-show則不會
+
+     -->
+
+    <div id="root">
+      <h2>當前的n值式{{n}}</h2>
+      <button @click="n++">點我n+1</button>
+      <!-- 使用v-show做條件渲染 -->
+      <!-- <h2 v-show="false">歡迎來到{{city}}</h2> -->
+      <!-- <h2 v-show="1===1">歡迎來到{{city}}</h2> -->
+
+      <!-- 使用v-if做條件渲染 -->
+      <!-- <h2 v-if="false">歡迎來到{{city}}</h2> -->
+      <!-- <h2 v-if="1===1">歡迎來到{{city}}</h2> -->
+
+      <!-- v-if和v-else -->
+      <!-- <div v-if="n==1">Vue</div>
+      <div v-else-if="n==2">Angular</div>
+      <div v-else-if="n==3">React</div>
+      <div v-else="n>3">哈哈</div> -->
+
+      <template v-if="n==1">
+        <h1>你好</h1>
+        <p>今天天氣真好</p>
+      </template>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      new Vue({
+        el: "#root",
+        data: {
+          n: 1,
+          city: "台北",
+        },
+      });
+    </script>
+  </body>
+</html>

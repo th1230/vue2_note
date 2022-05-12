@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue.set的使用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <div id="root">
+      <h1>姓名:{{name}}</h1>
+      <h1>年齡:{{age}}</h1>
+      <hr />
+      <h1>學生訊息</h1>
+      <h1>姓名:{{student.name}}</h1>
+      <h1>年齡:{{student.age}}</h1>
+      <h1>性別:{{student.sex}}</h1>
+      <button @click="addsex">添加訊息</button>
+      <hr />
+      <h1>朋友們</h1>
+      <ul v-for="p in student.friends">
+        <li>
+          <h1>姓名:{{p.name}}</h1>
+          <h1>年齡:{{p.age}}</h1>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      const vm = new Vue({
+        el: "#root",
+        data: {
+          name: "thomas",
+          age: 22,
+          student: {
+            name: "tom",
+            age: 21,
+            friends: [
+              {
+                name: "jerry",
+                age: 18,
+              },
+              {
+                name: "Mikey",
+                age: 23,
+              },
+            ],
+          },
+        },
+        methods: {
+          addsex() {
+            vm.$set(this.student, "sex", "男");
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>el與data的兩種寫法</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body>
+    <!-- 
+        el與data的兩種寫法
+            1. el的兩種寫法
+                (1). new Vue的時候配置屬性。
+                (2). 先創建Vue實例，隨後再通過vm.$mount("#root")指調el的值。
+            2. data的兩種寫法
+                (1). 對象式
+                (2). 函數式
+                如何選擇: 目前哪種都可以，但是學習到組件時data必須用涵術式，否則會抱錯
+            3. 一個重要原則:
+                由Vue管理的函數，一定不要寫箭頭涵數，一旦寫了箭頭涵式，this舊不是Vue實例。
+
+    -->
+    <div id="root">
+      <h1>你好阿 {{name}}</h1>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      // el的兩種寫法:
+
+      /*       
+      const vm = new Vue({
+        el: "#root", //第一種
+        data: {
+          name: "thomas",
+        },
+      });
+
+      console.log(vm);
+      vm.$mount("#root"); //第二種 
+      */
+
+      // data的兩種寫法:
+      const vm = new Vue({
+        el: "#root",
+        // 第一種對象式
+        // data: {
+        //   name: "thomas",
+        // },
+
+        //第二種函數式
+        data: function () {
+          console.log(this); //this會指向Vue的實例對象上
+
+          return { name: "thomas" };
+        },
+      });
+    </script>
+  </body>
+</html>

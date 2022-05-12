@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>基本使用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <!--  
+          Vue中使用組建的三大步驟:
+              一、 定義組件(創建組件)
+              二、 註冊組建
+              三、 使用組件(寫組件標籤)
+
+          一、 如何定義一個組件?
+                  使用Vue.extend(options)創建，其中options和new Vue(options)所傳入的options幾乎一樣，但區別如下:
+                      1. el不要寫，為什麼? ---- 最終所有的組件都要經過一個vm的管理，由vm的el決定要服務於哪個容器。
+                      2. data必需寫成函數? ---- 避免組件被復用時，數據存在引用關係。
+                  備註: template可以配置組件結構。
+          二、 如何註冊組建?
+                  1. 局部註冊: 靠new Vue的時候傳入compoments選項
+                  2. 全局註冊: 靠Vue.compoment("組件名稱",組件)
+          三、 編寫標籤:
+                  <ball></ball>
+     -->
+    <div id="root">
+      <!-- 第三步編寫組件標籤 -->
+      <ball></ball>
+      <hr />
+      <!-- 第三步編寫組件標籤，有大寫要用 - 隔開 -->
+      <my-Info></my-Info>
+      <hr />
+      <!-- 第三步編寫組件標籤 -->
+      <hello></hello>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      // 第一步創建組件
+      const ball = Vue.extend({
+        template: `
+        <div>
+          <h1>球的種類 - {{ballType}}</h1>
+          <h1>球的顏色 - {{color}}</h1>
+        </div>`,
+        data() {
+          return {
+            ballType: "basketball",
+            color: "red",
+          };
+        },
+      });
+
+      // 第一步創建組件
+      const myInfo = Vue.extend({
+        template: `
+        <div>
+          <h1>我的名字 - {{name}}</h1>
+          <h1>我的年齡 - {{age}}</h1>
+        </div>
+        `,
+        data() {
+          return {
+            name: "thomas",
+            age: 22,
+          };
+        },
+      });
+
+      // 第一步創建組件
+      const hello = Vue.extend({
+        template: `
+        <div>
+          <h1>hello你好!!</h1>
+          <h1>今天天氣真不錯</h1>
+        </div>
+        `,
+        data() {
+          return {};
+        },
+      });
+
+      // 第二步註冊組件
+      Vue.component("hello", hello);
+
+      new Vue({
+        el: "#root",
+        data: {},
+        // 第二步註冊組件
+        components: {
+          ball,
+          myInfo,
+        },
+      });
+    </script>
+  </body>
+</html>

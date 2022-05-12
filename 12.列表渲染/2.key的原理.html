@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>key的原理</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <!-- 
+          面試題: react和vue中的key有什麼作用? (key內部原理)
+
+              1. 虛擬DOM中key的作用:
+                  key式虛擬DOM對象的標示，當數據發生變化時，Vue會根據[新數據]生成[新的虛擬DOM]，
+                  隨後Vue進行[新的虛擬DOM]與[舊的虛擬DOM]的差異比較，比較規則如下:
+
+              2. 對比規則:
+                  (1). 舊虛擬DOM中找到了與新虛擬DOM相同的key:
+                      <1>. 若虛擬DOM中的內容沒有變，則直接使用之前的真實DOM
+                      <2>. 若虛擬DOM中的內容變了，則直生成新的真實DOM，隨後替換掉之前的真實DOM
+                  (2). 舊虛擬DOM中沒有找到了與新虛擬DOM相同的key:
+                      創建新的真實DOM，渲染到頁面上
+              
+              3. 用index作為key可能引發的問題
+                      1. 若對數據進行，逆續添加、逆續刪除等破壞順序的操作:
+                              會產生沒有必要的真實DOM更新 ==> 街面效果沒問題但效率低
+                      2.  若結構中包括輸入類DOM元素:
+                              會產生錯誤更新 ==> 介面有問題
+              
+              4. 開發中如何選擇key?:
+                      1. 最好使用每一條數據的唯一標示作為key，比如id、手機號碼、身分證號、學號等唯一標示
+                      2. 如果不存在對數據進行，逆續添加、逆續刪除等破壞順序的操作，進用於渲染列表、展示，
+                         使用index作為key是沒有問題
+     -->
+
+    <div id="root">
+      <!-- 遍歷數組 -->
+      <h1>人員列表</h1>
+      <ul v-for="(p,index) in persons" :key="index">
+        <li>{{p.name}}-{{p.age}}</li>
+        <input type="text" />
+      </ul>
+
+      <button @click="addPerson">加一個人在前面</button>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      new Vue({
+        el: "#root",
+        data: {
+          persons: [
+            { id: 001, name: "張三", age: 18 },
+            { id: 002, name: "李四", age: 19 },
+            { id: 003, name: "王五", age: 20 },
+          ],
+        },
+
+        methods: {
+          addPerson() {
+            this.persons.unshift({ id: 004, name: "斗六", age: 21 });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

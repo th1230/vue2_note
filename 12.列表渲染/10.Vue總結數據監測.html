@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue總結數據監測</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <div id="root">
+      <!-- 
+            Vue數據監視原理:
+                  1. Vue會監視data中所有層次的數據。
+
+                  2. 如何監測對象中的數據?
+                      通過setter實現監視，且需要在new Vue時就傳入要監測的數據
+                      (1). 對象中後追加的屬性，Vue默認不做響應式處理。
+                      (2). 如需給後天家的屬性作響應式，請使用以下api:
+                          Vue.set( target , propertyName/index , value ) 或
+                          vm.$set( target , propertyName/index , value )
+                  
+                  3. 如何監測數組中的數據?
+                      通過包裹數組更新的方式實現，本質就是做了兩件事:
+                        (1). 調用原生對應方法對數組進行更新
+                        (2). 重新解析模板，進而更新頁面。
+
+                  4. Vue修改數組中的某些元素一定要用如下方法:
+                      1. 使用這些api: push()、pop()、shift()、unshift、splice()、sort()、reverse()
+                      2. Vue.set() 或 vm.$set()
+                  
+                  特別注意: Vue.set() 和 vm.$set()，不能給 vm 和 vm的根對象添加數據屬性
+
+                  5. _data中的數據劫持:
+                      1. 數據劫持的意思是，data中的所有數據被Object.defineProperty中的getter和setter攔截，不管做什麼都先
+                      透過這兩個函數，當劫持到數據時會正常更新數據，並且開始重新渲染。
+                      
+                      2. 以現實中的比喻就是，一個人要去買東西，但在半路上被人阻擋，並說你要去買什麼先跟我講我去幫你買。
+       -->
+
+      <h1>學生訊息</h1>
+
+      <button @click="student.age++">年齡+1</button>
+      <button @click="addsex">添加性別為男</button>
+      <button @click="student.sex='未知'">修改性別</button>
+      <button @click="addfriend">在列表首位添加一位朋友</button>
+      <button @click="updataFirstFriendName">修改第一位朋友的名字為張三</button>
+      <button @click="addhobby">添加一個愛好</button>
+      <button @click="updateHobby">修改第一個愛好為開車</button>
+      <button @click="removeDrive">刪除開車愛好</button>
+
+      <h1>姓名:{{student.name}}</h1>
+      <h1>年齡:{{student.age}}</h1>
+      <h1 v-if="student.sex">性別:{{student.sex}}</h1>
+      <hr />
+      <h1>愛好</h1>
+      <ul v-for="h in student.hobby">
+        <li>
+          <h1>{{h}}</h1>
+        </li>
+      </ul>
+      <hr />
+      <h1>朋友們</h1>
+      <ul v-for="p in student.friends">
+        <li>
+          <h1>姓名:{{p.name}}</h1>
+          <h1>年齡:{{p.age}}</h1>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      const vm = new Vue({
+        el: "#root",
+        data: {
+          student: {
+            name: "tom",
+            age: 21,
+            hobby: ["打遊戲", "吃美食", "旅遊"],
+            friends: [
+              {
+                name: "jerry",
+                age: 18,
+              },
+              {
+                name: "Mikey",
+                age: 23,
+              },
+            ],
+          },
+        },
+        methods: {
+          addsex() {
+            this.$set(this.student, "sex", "男");
+            // Vue.set(this.student, "sex", "男");
+          },
+          addfriend() {
+            this.student.friends.unshift({
+              name: "perry",
+              age: 45,
+            });
+          },
+          updataFirstFriendName() {
+            this.student.friends[0].name = "張三";
+          },
+          addhobby() {
+            this.student.hobby.push("學習");
+          },
+          updateHobby() {
+            this.student.hobby.splice(0, 1, "開車");
+          },
+          removeDrive() {
+            // 當使用了原生的陣列函數進行操作，就需要透過覆蓋的方式觸發重新渲染
+            this.student.hobby = this.student.hobby.filter((h) => {
+              return h != "開車";
+            });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

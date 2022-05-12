@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>何謂數據代理</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body>
+    <!-- 通過一個對象代理另一個對象中的屬性的操作(讀/寫) -->
+    <script>
+      let obj1 = {
+        x: 100,
+      };
+      let obj2 = {
+        y: 200,
+      };
+
+      // 讓obj2也可以通過x屬性去操作obj1的x值
+
+      Object.defineProperty(obj2, x, {
+        get() {
+          return obj1.x;
+        },
+        set(value) {
+          obj1.x = value;
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>基本列表</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <!-- 
+        v-for指令
+            1. 用於展示列表數據
+            2. 語法: v-for="(item,index) in xxx" :key="yyy"
+            3. 可遍歷: 數組、物件、字符串、指定次數
+     -->
+
+    <div id="root">
+      <!-- 遍歷數組 -->
+      <h1>人員列表</h1>
+      <ul v-for="(p,index) in persons" :key="index">
+        <li>{{p.name}}-{{p.age}}</li>
+      </ul>
+
+      <!-- 遍歷物件 -->
+      <h1>汽車訊息</h1>
+      <ul v-for="(c,k) in car" :key="k">
+        <li>{{k}}-{{c}}</li>
+      </ul>
+
+      <!-- 遍歷字符串 -->
+      <h1>測試遍歷字符串</h1>
+      <ul v-for="(char,index) in str" :key="index">
+        <li>{{char}}-{{index}}</li>
+      </ul>
+
+      <!-- 遍歷指定次數 -->
+      <h1>測試遍歷指定次數</h1>
+      <ul v-for="(number,index) in 5" :key="index">
+        <li>{{number}}-{{index}}</li>
+      </ul>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      new Vue({
+        el: "#root",
+        data: {
+          persons: [
+            { id: 001, name: "張三", age: 18 },
+            { id: 002, name: "李四", age: 19 },
+            { id: 003, name: "王五", age: 20 },
+          ],
+          car: {
+            name: "奧迪",
+            price: "80萬",
+            color: "灰色",
+          },
+          str: "hello",
+        },
+      });
+    </script>
+  </body>
+</html>

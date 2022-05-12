@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVVM模型</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body>
+    <!-- 
+        MVVM模型:
+            1. M: 模型(Modal) : data中的數據(對應數據)
+            2. V: 視圖(View) : 模板代碼(對應html模板)
+            3. VM: 視圖模型(ViewModal) : Vue實例(對應vue實例對象)
+
+        觀察發現:
+            1. data上面的所有屬性最後都出現在vm(Vue實例)上面
+            2. vm身上的所有屬性 及 Vue原型上面的所有屬性，在Vue模板中都可以直接使用
+    -->
+    <div id="root">
+      <h1>名字 {{name}}</h1>
+      <h1>位置 {{address}}</h1>
+      <h1>測試1 {{1+1}}</h1>
+      <h1>測試2 {{$options}}</h1>
+      <h1>測試3 {{$emit}}</h1>
+      <h1>測試4 {{_c}}</h1>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      const vm = new Vue({
+        el: "#root",
+        data: {
+          name: "thomas",
+          address: "taipei",
+        },
+      });
+    </script>
+  </body>
+</html>

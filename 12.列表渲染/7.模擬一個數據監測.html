@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>模擬一個數據監測</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <div id="root"></div>
+
+    <script>
+      let data = {
+        name: "thomas",
+        age: 22,
+      };
+
+      //創一個用於監測物件的構造涵式
+      function Observer(obj) {
+        const keys = Object.keys(obj);
+        keys.forEach((k) => {
+          Object.defineProperty(this, k, {
+            get() {
+              return obj[k];
+            },
+            set(val) {
+              console.log(`${k}被改變了，我要重新解析模板、生成虛擬DOM...`);
+              obj[k] = val;
+            },
+          });
+        });
+      }
+
+      const obs = new Observer(data);
+
+      // 創建一個vm物件模擬 Vue的vm實例對象
+      let vm = {};
+
+      //將設置監聽的obs附值到_data與data中
+      vm._data = data = obs;
+    </script>
+  </body>
+</html>

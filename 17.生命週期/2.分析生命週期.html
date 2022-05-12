@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>引出生命週期</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+  </head>
+  <body style="font-size: 1.2rem">
+    <!-- 
+          Vue解析模板的選擇:
+                1. 使用template做模板
+                    設定: template是Vue實例的一個屬性在new Vue({})時一同設置
+                    如何解析: 解析實會根據template來解析，並覆蓋掉el所指定的根元素
+                    使用注意事項: 只能有一個根結點，因此需要一個div做包裹，原生template原素不能使用
+                2. 使用指定的根元素作為模板
+                    設定: new Vue({})時一同設置，可以通過el屬性，或vm.$mount(element)
+                    如何解析: 解析時會解析包括outerHtml，也就是跟元素本身，解析完成後再將模板容器替換掉
+
+          斷點測試:
+                可以使用debugger設定斷點來觀察每個生命周期
+     -->
+    <div id="root">
+      <h1>當前的n值是{{n}}</h1>
+      <button @click="addN">點我n+1</button>
+      <button @click="bye">點我執行destroy</button>
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      new Vue({
+        el: "#root",
+        // template: `
+        //   <h1>當前的n值是{{n}}</h1>
+        //   <button @click="addN">點我n+1</button>
+        //   <button @click="bye">點我執行destroy</button>
+        // `,
+        data: {
+          n: 1,
+        },
+        methods: {
+          addN() {
+            this.n += 1;
+          },
+          byt() {
+            console.log("bye");
+            this.$destroy();
+          },
+        },
+        beforeCreate() {
+          console.log("beforeCreate");
+        },
+        created() {
+          console.log("created");
+        },
+        unmounted() {
+          console.log("unmounted");
+        },
+        mounted() {
+          console.log("mounted");
+        },
+        beforeUpdate() {
+          console.log("beforeUpdate");
+        },
+        updated() {
+          console.log("updated");
+        },
+        beforeDestroy() {
+          console.log("beforeDestroy");
+        },
+        destroyed() {
+          console.log("destroyed");
+        },
+      });
+    </script>
+  </body>
+</html>

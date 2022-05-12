@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>綁定樣式</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
+    <style>
+      .basic {
+        width: 200px;
+        height: 100px;
+        margin: 0 auto;
+        border: 3px solid black;
+        font-size: 3rem;
+        text-align: center;
+        line-height: 100px;
+      }
+      .happy {
+        background-color: rgb(40, 234, 43);
+      }
+      .sad {
+        background-color: rgb(130, 28, 247);
+      }
+      .angry {
+        background-color: rgb(241, 34, 7);
+      }
+      .style1 {
+        border-radius: 50%;
+      }
+      .style2 {
+        background-color: rgb(48, 255, 252);
+      }
+      .style3 {
+        box-shadow: 10px 10px 5px black;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 
+          綁定樣式:
+              1. class樣式
+                    寫法:class="xxx" xxx可以是字符串、對象、數組
+                      字符串寫法適用於: 樣式類名不確定，需要動態指定
+                      數組寫法適用於: 樣式個數不確定，名稱不確定
+                      對象寫法適用於: 樣式個數確定，名稱確定，要不要用不確定
+              2. style樣式
+                    :style="{fontSize:xxx}"" 其中xxx式動態值
+                    :style="[a,b]" 其中a,b式樣式對象
+
+     -->
+
+    <div id="root">
+      <!-- 綁定class樣式--字符串寫法，適用於: 樣式類名不確定，需要動態指定 -->
+      <div class="basic" :class="mood">測試</div>
+      <br /><br />
+
+      <!-- 綁定class樣式--數組寫法，適用於: 樣式個數不確定，名稱不確定 -->
+      <div class="basic" :class="classArr">測試</div>
+      <br /><br />
+
+      <!-- 綁定class樣式--對象寫法，適用於: 樣式個數確定，名稱確定，要不要用不確定 -->
+      <div class="basic" :class="classObj">測試</div>
+      <br /><br />
+
+      <!-- 綁定style樣式--對象寫法，適用於: 樣式個數不確定，名稱不確定 -->
+      <div class="basic" :style="styleObj">測試</div>
+      <br /><br />
+
+      <!-- 綁定style樣式--數組寫法，適用於: 樣式個數確定，名稱確定，要不要用不確定 -->
+      <div class="basic" :style="styleArr">測試</div>
+      <br /><br />
+    </div>
+
+    <script>
+      Vue.config.devtools = true;
+      Vue.config.productionTip = false;
+
+      new Vue({
+        el: "#root",
+        data: {
+          mood: "happy",
+          classArr: ["style1", "style2", "style3"],
+          classObj: {
+            style1: true,
+            style2: false,
+            style3: false,
+          },
+          styleObj: {
+            fontSize: "20px",
+            color: "red",
+            backgroundColor: "orange",
+          },
+          styleObj2: {
+            fontSize: "20px",
+            color: "blue",
+            backgroundColor: "gray",
+          },
+          styleArr: [this.styleObj, this.styleObj2],
+        },
+      });
+    </script>
+  </body>
+</html>
